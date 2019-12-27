@@ -64,6 +64,18 @@ function validateCourse(course){
     return Joi.validate(course, Schema);
 }
 
+//Delete methode
+app.delete('/student/:id', (req, res) => {
+    const course = courses.find(c => c.id === parseInt(req.params.id));
+    if(!course) res.status(404).send("id in not found");
+
+    const index = courses.indexOf(course);
+    courses.splice(index, 1);
+
+    res.send(course);
+})
+
+
 const port = process.env.PORT || 4000;
 
 app.listen(port, () => console.log(`Listening on port ${port}...`));
