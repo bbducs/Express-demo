@@ -22,17 +22,14 @@ app.get('/student', (req,res) => {
 // get methode using id
 app.get('/student/:id', (req,res) => {
     const course = courses.find(c => c.id === parseInt(req.params.id));
-    if(!course) res.status(404).send("id in not found");
+    if(!course)  return res.status(404).send("id in not found");
     res.send(course);
  })
 
 //post method with Joi
 app.post('/student', (req,res) => {
     const { error } = validateCourse(req.body)
-    if(error){
-        res.status(400).send(error.details[0].message)
-        return;
-    }
+    if(error) return res.status(400).send(error.details[0].message)
 
     const course = {
         id: courses.length + 1,
@@ -45,12 +42,8 @@ app.post('/student', (req,res) => {
 //put method
 app.put('/student/:id', (req,res) => {
     const course = courses.find(c => c.id === parseInt(req.params.id));
-    
     const {error} = validateCourse(req.body);
-    if(error){
-        res.status(400).send(error.details[0].message)
-        return;
-    }
+    if(error) return res.status(400).send(error.details[0].message)
 
     course.name = req.body.name;
     res.send(courses);
@@ -67,7 +60,7 @@ function validateCourse(course){
 //Delete methode
 app.delete('/student/:id', (req, res) => {
     const course = courses.find(c => c.id === parseInt(req.params.id));
-    if(!course) res.status(404).send("id in not found");
+    if(!course) return res.status(404).send("id in not found");
 
     const index = courses.indexOf(course);
     courses.splice(index, 1);
