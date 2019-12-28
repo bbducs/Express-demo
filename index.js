@@ -4,6 +4,16 @@ const app = expresss();
 
 app.use(expresss.json());
 
+//middle ware 
+app.use(function(req, res, next){
+    console.log("Logging...");
+    next();
+})
+app.use(function(req, res, next){
+    console.log("Authentication...");
+    next();
+})
+
 const courses = [{id: 1, name: "course1" },
     {id: 2, name: "course2" },
     {id: 3, name: "course3" }
